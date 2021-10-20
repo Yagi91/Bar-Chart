@@ -10,8 +10,15 @@
 
 body {
   display: flex;
-  background-color: aliceblue;
+  //   background-color: aliceblue;
   // flex-direction: column;
   justify-content: center;
   align-content: center;
+}
+svg {
+  background-color: wheat;
+  text {
+    x: 500px;
+    y: 30px;
+  }
 }

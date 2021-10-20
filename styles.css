@@ -14,11 +14,19 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  background-color: aliceblue;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
   -ms-flex-line-pack: center;
       align-content: center;
+}
+
+svg {
+  background-color: wheat;
+}
+
+svg text {
+  x: 500px;
+  y: 30px;
 }
 /*# sourceMappingURL=styles.css.map */
