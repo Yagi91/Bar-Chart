@@ -8,6 +8,7 @@ let height = 700;
 let width = 1000;
 let padding = 40;
 let svg = d3.select("svg");
+let tooltip;
 
 let datesArr;
 let xScale;
@@ -16,6 +17,7 @@ let xAxisScale;
 let yAxisScale;
 let xAxis;
 let yAxis;
+let h = 2 * padding;
 
 let drawCanvas = () => {
   svg
@@ -30,7 +32,7 @@ let generateScales = () => {
   yScale = d3
     .scaleLinear()
     .domain([0, d3.max(values, (d) => d[1])])
-    .range([height - padding, padding]);
+    .range([0, height - 2 * padding]);
   xScale = d3
     .scaleLinear()
     .domain([0, values.length - 1])
@@ -61,7 +63,64 @@ let generateAxes = () => {
     .attr("transform", `translate(${padding}, 0)`)
     .call(yAxis);
 };
-let drawBars = () => {};
+
+// document.getElementsByClassName('bar').addEventListener('mouseover' mouseOver);
+// let mouseOver=()=>{
+//     document.getElementsByClassName('bar').style.color = 'orange';
+// }
+let quartile = (dateStr) => {
+  let date = new Date(dateStr);
+  let quarter;
+  switch (date.getMonth()) {
+    case 0:
+      quarter = "Q1";
+      break;
+    case 3:
+      quarter = "Q2";
+      break;
+    case 6:
+      quarter = "Q3";
+      break;
+
+    default:
+      quarter = "Q4";
+      break;
+  }
+  return quarter;
+};
+
+let drawBars = () => {
+  tooltip = d3
+    .select("body")
+    .append("div")
+    .attr("id", "tooltip")
+    .style("width", "auto")
+    .style("height", "auto")
+    .style("visibility", "hidden");
+
+  svg
+    .selectAll("rect")
+    .data(values)
+    .enter()
+    .append("rect")
+    .attr("class", "bar")
+    .attr("width", (width - 2 * padding) / values.length)
+    .attr("data-date", (d) => d[0])
+    .attr("data-gdp", (d) => d[1])
+    .attr("height", (d) => yScale(d[1]))
+    .attr("y", (d) => height - yScale(d[1]) - padding)
+    .attr("x", (d, index) => xScale(index))
+    .style("fill", "blue")
+    .on("mouseover", (event, d) => {
+      tooltip.transition().style("visibility", "visible");
+      tooltip.text(`YEAR: ${d[0]}, ${quartile(d[0])}`);
+      // tooltip.text(`YEAR:${d[0]}`);
+      tooltip.attr("data-date", d[0]);
+    })
+    .on("mouseout", () => {
+      tooltip.transition().style("visibility", "hidden");
+    });
+};
 
 req.open("GET", url, true);
 req.send();
@@ -72,5 +131,14 @@ req.onload = () => {
   generateScales();
   generateAxes();
   drawBars();
-  console.log(values);
 };
+
+// `YEAR:${d[0]}, ${
+//   d[0].getMonth() < 3
+//     ? "Q1"
+//     : d[0].getMonth() > 6
+//     ? "Q2"
+//     : d[0].getMonth() < 9
+//     ? "Q3"
+//     : "Q4"
+// }`
