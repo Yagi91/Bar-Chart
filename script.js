@@ -9,6 +9,7 @@ let width = 1000;
 let padding = 40;
 let svg = d3.select("svg");
 let tooltip;
+let tag = d3.select("div");
 
 let datesArr;
 let xScale;
@@ -86,8 +87,14 @@ let quartile = (dateStr) => {
 };
 
 let drawBars = () => {
+  tag
+    .append("div")
+    .text("GROSS DOMESTIC PRODUCT (GDP)")
+    .attr("id", "tag")
+    .style("position", "relative")
+    .style("left", 0 + "px");
   tooltip = d3
-    .select("body")
+    .select("div")
     .append("div")
     .attr("id", "tooltip")
     .style("width", "auto")
@@ -117,9 +124,9 @@ let drawBars = () => {
             "<br>" +
             "$" +
             d[1].toLocaleString("en-US") +
-            " Billion"
+            " Billions"
         )
-        .style("transform", `translateX(${xScale(values.indexOf(d)) - 420}px)`);
+        .style("transform", `translateX(${xScale(values.indexOf(d)) + 10}px)`);
       tooltip.attr("data-date", d[0]);
     })
     .on("mouseout", () => {
