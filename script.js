@@ -64,10 +64,6 @@ let generateAxes = () => {
     .call(yAxis);
 };
 
-// document.getElementsByClassName('bar').addEventListener('mouseover' mouseOver);
-// let mouseOver=()=>{
-//     document.getElementsByClassName('bar').style.color = 'orange';
-// }
 let quartile = (dateStr) => {
   let date = new Date(dateStr);
   let quarter;
@@ -96,7 +92,8 @@ let drawBars = () => {
     .attr("id", "tooltip")
     .style("width", "auto")
     .style("height", "auto")
-    .style("visibility", "hidden");
+    .style("visibility", "hidden")
+    .style("opacity", "0.2");
 
   svg
     .selectAll("rect")
@@ -110,11 +107,19 @@ let drawBars = () => {
     .attr("height", (d) => yScale(d[1]))
     .attr("y", (d) => height - yScale(d[1]) - padding)
     .attr("x", (d, index) => xScale(index))
-    .style("fill", "blue")
     .on("mouseover", (event, d) => {
-      tooltip.transition().style("visibility", "visible");
-      tooltip.text(`YEAR: ${d[0]}, ${quartile(d[0])}`);
-      // tooltip.text(`YEAR:${d[0]}`);
+      tooltip.transition().style("visibility", "visible").style("opacity", "1");
+      tooltip
+        .html(
+          d[0] +
+            " " +
+            quartile(d[0]) +
+            "<br>" +
+            "$" +
+            d[1].toLocaleString("en-US") +
+            " Billion"
+        )
+        .style("transform", `translateX(${xScale(values.indexOf(d)) - 420}px)`);
       tooltip.attr("data-date", d[0]);
     })
     .on("mouseout", () => {
@@ -132,13 +137,3 @@ req.onload = () => {
   generateAxes();
   drawBars();
 };
-
-// `YEAR:${d[0]}, ${
-//   d[0].getMonth() < 3
-//     ? "Q1"
-//     : d[0].getMonth() > 6
-//     ? "Q2"
-//     : d[0].getMonth() < 9
-//     ? "Q3"
-//     : "Q4"
-// }`
