@@ -4,7 +4,7 @@
 - [Description of Project](#description).
 - [LINK to app](https://yagi91.github.io/pomodoro-clock/).
 - [Tools Used and why I choose them.](#tools).
-- [User Stories and functionality of the clock](#users-story-completed-and-added-functionality-of-the-clock).
+- [User Stories](#users-story-completed-and-added-functionality-of-the-clock).
 - [Problems Encountered](#problems-faced).
 - [Credit](#credits).
 
@@ -18,7 +18,7 @@ THis a bar chart that shows the relation of the GDP of the US in relation to the
 - HTML5/CSS6
 - D3.js: a Huge JavaScript libary that can be used to reprsent data, its very flxible thn most of the other ones out therelike chart.js though difficult to implement.;
 - AJAX: with xhr element which is still widely sipported accross multiple browsers than the fetch API.
-## USERS STORY COMPLETED and ADDED FUNCTIONALITY OF THE CLOCK
+## USERS STORY COMPLETED
 - User is sees a Title of Bar chart.
 - Bottom and left axis are present.
 - Rectangles representing bars.
